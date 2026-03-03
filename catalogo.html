@@ -9,7 +9,9 @@
   <div class="page-container">
     <div class="toolbar">
       <span class="toolbar-logo">FASHION PEAK</span>
-      <a th:href="@{/productos}" class="btn-admin">⚙️ Admin</a>
+      <a th:href="@{/productos}"
+         th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+         class="btn-admin">⚙ Admin</a>
     </div>
 
     <!-- Búsqueda -->
