@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Fashion Peak - Admin</title>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+  <div class="page-container">
+    <div class="toolbar">
+      <a th:href="@{/catalogo}" class="toolbar-btn">← Catálogo</a>
+      <span class="toolbar-logo">FASHION PEAK ADMIN</span>
+      <span class="admin-badge">👤 Admin</span>
+    </div>
+
+    <div class="page-content">
+      <div class="page-header">
+        <h2 th:text="${titulo}">Productos</h2>
+        <a th:href="@{/productos/nuevo}" class="btn-nuevo">+ Nuevo Producto</a>
+      </div>
+
+      <!-- Mensaje flash -->
+      <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+      <!-- Tabla de productos -->
+      <table class="tabla-admin">
+        <thead>
+          <tr>
+            <th>ID</th><th>Nombre</th><th>Precio</th>
+            <th>Cantidad</th><th>Categoría</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p : ${productos}">
+            <td th:text="${p.idProducto}">1</td>
+            <td th:text="${p.nombre}">Nombre</td>
+            <td th:text="'$' + ${#numbers.formatDecimal(p.precio,0,'COMMA',0,'POINT')}">$0</td>
+            <td th:text="${p.cantidad}">0</td>
+            <td th:text="${p.categoria}">-</td>
+            <td class="acciones">
+              <a th:href="@{/productos/editar/{id}(id=${p.idProducto})}" class="btn-editar">✏️ Editar</a>
+              <a th:href="@{/productos/eliminar/{id}(id=${p.idProducto})}"
+                 class="btn-eliminar"
+                 th:onclick="'return confirm(\'¿Eliminar ' + ${p.nombre} + '?\')'">🗑️ Eliminar</a>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(productos)}">
+            <td colspan="6" style="text-align:center;padding:20px;">No hay productos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

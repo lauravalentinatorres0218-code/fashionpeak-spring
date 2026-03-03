@@ -1,0 +1,21 @@
+================================================================
+ENLACE DEL REPOSITORIO - GA7-220501096-AA3-EV01
+Fashion Peak - Spring Boot Framework
+================================================================
+Autor:      Laura Valentina Torres Chaparro
+Ficha:      2977463
+Evidencia:  GA7-220501096-AA3-EV01
+
+REPOSITORIO EN GITHUB:
+https://github.com/lauravalentinatorres0218-code/fashionpeak-springboot
+
+git clone https://github.com/lauravalentinatorres0218-code/fashionpeak-springboot.git
+
+Comandos Git:
+git init
+git add .
+git commit -m "feat: módulo Spring Boot Fashion Peak"
+git branch -M main
+git remote add origin https://github.com/lauravalentinatorres0218-code/fashionpeak-springboot.git
+git push -u origin main
+================================================================

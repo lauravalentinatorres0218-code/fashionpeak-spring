@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Fashion Peak - Formulario</title>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+  <div class="page-container">
+    <div class="toolbar">
+      <a th:href="@{/productos}" class="toolbar-btn">← Volver</a>
+      <span class="toolbar-logo">FASHION PEAK</span>
+      <span></span>
+    </div>
+
+    <div class="page-content" style="max-width:500px;margin:0 auto;">
+      <h2 th:text="${titulo}" style="margin-bottom:24px;">Producto</h2>
+
+      <!-- Formulario POST con Thymeleaf -->
+      <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+        <!-- ID oculto para edición -->
+        <input type="hidden" th:field="*{idProducto}"/>
+
+        <div class="form-group">
+          <label class="form-label">Nombre del producto</label>
+          <input type="text" th:field="*{nombre}" class="form-input" placeholder="Nombre"/>
+          <span class="error-msg" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Precio</label>
+          <input type="number" th:field="*{precio}" class="form-input" placeholder="0.00" step="0.01"/>
+          <span class="error-msg" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Cantidad disponible</label>
+          <input type="number" th:field="*{cantidad}" class="form-input" placeholder="0"/>
+          <span class="error-msg" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Categoría</label>
+          <select th:field="*{categoria}" class="form-input">
+            <option value="Mujer">Mujer</option>
+            <option value="Hombre">Hombre</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Imagen (nombre del archivo)</label>
+          <input type="text" th:field="*{imagen}" class="form-input" placeholder="camiseta.png"/>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px;">
+          <a th:href="@{/productos}" class="btn-outline" style="text-align:center;text-decoration:none;padding:13px;">Cancelar</a>
+          <button type="submit" class="btn-primary" style="margin-top:0;" th:text="${accion}">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

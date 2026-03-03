@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Fashion Peak - Admin</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+  <div class="page-container">
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <span class="toolbar-logo">FASHION PEAK</span>
+      <span class="admin-badge">👤 <span sec:authentication="name">Admin</span></span>
+      <a th:href="@{/logout}" class="link-red">Salir</a>
+    </div>
+
+    <div class="page-content">
+      <div class="page-header">
+        <h2>Gestión de Productos
+          <span class="badge-count" th:text="'(' + ${totalProductos} + ')'"></span>
+        </h2>
+        <a th:href="@{/productos/nuevo}" class="btn-nuevo">+ Nuevo Producto</a>
+      </div>
+
+      <!-- Mensajes flash -->
+      <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+      <div th:if="${error}"   class="alert alert-error"   th:text="${error}"></div>
+
+      <!-- Buscador -->
+      <form th:action="@{/productos/buscar}" method="get" class="search-bar" style="margin-bottom:16px;">
+        <input type="text" name="nombre" class="form-input"
+               placeholder="🔍 Buscar producto..." style="max-width:300px;display:inline-block;"/>
+        <select name="categoria" class="form-input" style="max-width:150px;display:inline-block;margin-left:8px;">
+          <option value="">Todas</option>
+          <option value="Mujer">Mujer</option>
+          <option value="Hombre">Hombre</option>
+        </select>
+        <button type="submit" class="btn-primary" style="width:auto;padding:13px 20px;margin-top:0;display:inline-block;">
+          Buscar
+        </button>
+      </form>
+
+      <!-- Tabla de productos -->
+      <table class="tabla-admin">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Iteración con Thymeleaf th:each -->
+          <tr th:each="producto : ${listaProductos}">
+            <td th:text="${producto.idProducto}"></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${producto.cantidad}"></td>
+            <td>
+              <span th:class="${producto.categoria == 'Mujer'} ? 'badge-mujer' : 'badge-hombre'"
+                    th:text="${producto.categoria}"></span>
+            </td>
+            <td class="acciones">
+              <a th:href="@{/productos/editar/{id}(id=${producto.idProducto})}"
+                 class="btn-editar">✏️ Editar</a>
+              <a th:href="@{/productos/eliminar/{id}(id=${producto.idProducto})}"
+                 class="btn-eliminar"
+                 th:onclick="'return confirm(\'¿Eliminar ' + ${producto.nombre} + '?\')'">
+                🗑️ Eliminar
+              </a>
+            </td>
+          </tr>
+          <!-- Mensaje si no hay productos -->
+          <tr th:if="${#lists.isEmpty(listaProductos)}">
+            <td colspan="6" style="text-align:center;padding:24px;color:#666;">
+              No hay productos registrados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

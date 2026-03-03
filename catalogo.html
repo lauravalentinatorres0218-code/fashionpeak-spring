@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Fashion Peak - Catálogo</title>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+  <div class="page-container">
+    <div class="toolbar">
+      <span class="toolbar-logo">FASHION PEAK</span>
+      <a th:href="@{/productos}" class="btn-admin">⚙️ Admin</a>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="search-bar">
+      <form th:action="@{/catalogo}" method="get">
+        <input type="text" name="buscar" th:value="${buscar}"
+               placeholder="🔍 Buscar producto..." class="search-input"/>
+        <button type="submit" class="btn-buscar">Buscar</button>
+      </form>
+    </div>
+
+    <!-- Filtros por categoría -->
+    <div class="filtros">
+      <a th:href="@{/catalogo}" th:classappend="${categoriaActiva == null} ? 'activo'"
+         class="filtro-btn">Todos</a>
+      <a th:href="@{/catalogo(categoria='Mujer')}"
+         th:classappend="${categoriaActiva == 'Mujer'} ? 'activo'"
+         class="filtro-btn">Mujer</a>
+      <a th:href="@{/catalogo(categoria='Hombre')}"
+         th:classappend="${categoriaActiva == 'Hombre'} ? 'activo'"
+         class="filtro-btn">Hombre</a>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="productos-grid">
+      <div th:each="p : ${productos}" class="producto-card">
+        <div class="producto-img-placeholder">
+          <span th:text="${p.categoria == 'Mujer'} ? '👗' : '👔'">👗</span>
+        </div>
+        <p class="producto-nombre" th:text="${p.nombre}">Nombre</p>
+        <p class="producto-precio" th:text="'$' + ${#numbers.formatDecimal(p.precio,0,'COMMA',0,'POINT')}">$0</p>
+        <span class="stock-badge" th:text="'Stock: ' + ${p.cantidad}">Stock: 0</span>
+      </div>
+      <!-- Mensaje si no hay productos -->
+      <div th:if="${#lists.isEmpty(productos)}" class="empty-msg">
+        <p>No se encontraron productos.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
